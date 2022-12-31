@@ -42,15 +42,18 @@ if __name__ == '__main__':
         input_folder = FLAGS.image_path
         for file in os.listdir(input_folder):
             input = input_folder + file
-            image = read_image(input)
+            if input.endswith('checkpoint'):
+                pass
+            else:
+                image = read_image(input)
 
-            image_yolo = prepare_image_yolo(image)
-            output_yolo = yolo(image_yolo)
-            output_yolo = cut_result(output_yolo)
-            final_image = create_new_image(image, output_yolo, p2p, FLAGS.objects)
-            if os.path.isfile(FLAGS.image_output_path + '/' + file):
-                os.remove(FLAGS.image_output_path + '/' + file)
-            plt.imsave(f'{FLAGS.image_output_path}/{file}', final_image * 0.5 + 0.5)
+                image_yolo = prepare_image_yolo(image)
+                output_yolo = yolo(image_yolo)
+                output_yolo = cut_result(output_yolo)
+                final_image = create_new_image(image, output_yolo, p2p, FLAGS.objects)
+                if os.path.isfile(FLAGS.image_output_path + '/' + file):
+                    os.remove(FLAGS.image_output_path + '/' + file)
+                plt.imsave(f'{FLAGS.image_output_path}/{file}', final_image * 0.5 + 0.5)
 
     elif FLAGS.video_path:
         print(FLAGS.video_path)
